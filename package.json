@@ -1,0 +1,36 @@
+{
+  "name": "@babbage/react-prompt",
+  "version": "0.1.0",
+  "description": "Onboards users to Babbage Desktop before loading your app",
+  "main": "build/index.js",
+  "repository": "git+https://github.com/p2ppsr/babbage-react-prompt",
+  "author": "Peer-to-Peer Privacy Systems Research LLC",
+  "license": "Open BSV License",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "build": "rollup -c --environment BUILD:production",
+    "dev": "rollup -cw",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "@material-ui/core": "^4.10.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.3",
+    "@babel/preset-env": "^7.12.1",
+    "@babel/preset-react": "^7.12.1",
+    "babel-jest": "^26.6.1",
+    "jest": "^26.6.1",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
+    "react-scripts": "^4.0.3",
+    "rollup": "^2.32.1",
+    "rollup-plugin-babel": "^4.4.0",
+    "standard": "^15.0.0"
+  },
+  "peerDependencies": {
+    "@babbage/sdk": "^0.1.0",
+    "react": "*"
+  }
+}
