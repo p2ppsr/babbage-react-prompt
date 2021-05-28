@@ -17,7 +17,7 @@ const useStyles = makeStyles(style, {
 
 const checkStatus = async () => {
   try {
-    const authenticated = await isAuthenticated()
+    const authenticated = await isAuthenticated(undefined, false)
     if (!authenticated) {
       return false
     }
