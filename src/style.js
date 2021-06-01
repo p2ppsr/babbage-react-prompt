@@ -4,6 +4,7 @@ export default theme => ({
     height: '100%',
     padding: theme.spacing(5),
     boxSizing: 'border-box',
+    maxHeight: '30vh',
     [theme.breakpoints.down('sm')]: {
       padding: theme.spacing(3)
     }

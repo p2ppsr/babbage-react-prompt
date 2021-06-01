@@ -58,7 +58,7 @@ export default ({ children, appName = 'This App' }) => {
           <center>
             <Icon className={classes.babbage_icon} />
             <Typography variant='h5' paragraph>
-              <b>"{appName}" Requires Babbage Desktop!</b>
+              "{appName}" Requires Babbage Desktop!
             </Typography>
           </center>
           <div className={classes.steps_grid}>
