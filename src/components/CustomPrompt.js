@@ -56,11 +56,11 @@ const useStyles = makeStyles((theme) => ({
 
 const CustomPrompt = ({
   appName,
-  appLinks = [],
+  author,
+  authorUrl,
   appImages = [],
   appIcon,
-  description,
-  learnMoreUrl
+  description
 }) => {
   const needsLearnMore = description.includes('\n')
 
@@ -78,22 +78,21 @@ const CustomPrompt = ({
             <Typography style={{ fontWeight: 500 }} variant='h4'>
               {appName}
             </Typography>
-            {appLinks.map((link, i) => link.length > 1
+            {authorUrl
               ? (
                 <Link
-                  key={i}
-                  href={link[1]}
+                  href={authorUrl}
                   style={{ cursor: 'pointer', marginRight: '1em' }}
                   target='_blank'
                 >
-                  {link[0]}
+                  {author}
                 </Link>
                 )
               : (
                 <Typography color='textSecondary' className={classes.secondary}>
-                  {link[0]}
+                  {author}
                 </Typography>
-                ))}
+                )}
           </div>
           <div className={classes.bottom_right_container}>
             <div>
@@ -143,7 +142,7 @@ const CustomPrompt = ({
       <Typography style={{ marginBottom: '2em', whiteSpace: 'pre-line' }} paragraph>
         {transformedDescription}
         <br />
-        {learnMoreUrl && needsLearnMore && (
+        {needsLearnMore && (
           <Link
             style={{
               cursor: 'pointer'

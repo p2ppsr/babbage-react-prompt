@@ -31,11 +31,11 @@ const checkStatus = async () => {
 export default ({
   children,
   appName = 'This App',
-  appLinks,
+  author,
+  authorUrl,
   appImages,
   appIcon,
   description,
-  learnMoreUrl,
   customPrompt = false
 }) => {
   const classes = useStyles()
@@ -72,11 +72,11 @@ export default ({
             customPrompt
               ? <CustomPrompt
                   appName={appName}
-                  appLinks={appLinks}
+                  author={author}
+                  authorUrl={authorUrl}
                   appImages={appImages}
                   appIcon={appIcon}
                   description={description}
-                  learnMoreUrl={learnMoreUrl}
                 />
               : <DefaultPrompt />
           }
