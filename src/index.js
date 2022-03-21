@@ -9,7 +9,8 @@ import {
 import { useTheme, makeStyles } from '@material-ui/core/styles'
 import style from './style'
 import { isAuthenticated } from '@babbage/sdk'
-import Icon from './icon.svg'
+import DefaultPrompt from './components/DefaultPrompt'
+import CustomPrompt from './components/CustomPrompt'
 
 const useStyles = makeStyles(style, {
   name: 'BabbageReactPrompt'
@@ -27,7 +28,16 @@ const checkStatus = async () => {
   return true
 }
 
-export default ({ children, appName = 'This App' }) => {
+export default ({
+  children,
+  appName = 'This App',
+  author,
+  authorUrl,
+  appImages,
+  appIcon,
+  description,
+  customPrompt = false
+}) => {
   const classes = useStyles()
   const theme = useTheme()
   const isFullscreen = useMediaQuery(theme.breakpoints.down('xs'))
@@ -51,12 +61,26 @@ export default ({ children, appName = 'This App' }) => {
         open={open}
         maxWidth='sm'
         fullWidth
+        classes={{
+          paper: classes.modal
+        }}
         scroll='body'
         fullScreen={isFullscreen}
       >
         <DialogContent>
+          {
+            customPrompt
+              ? <CustomPrompt
+                  appName={appName}
+                  author={author}
+                  authorUrl={authorUrl}
+                  appImages={appImages}
+                  appIcon={appIcon}
+                  description={description}
+                />
+              : <DefaultPrompt />
+          }
           <center>
-            <Icon className={classes.babbage_icon} />
             <Typography variant='h5' paragraph>
               "{appName}" Requires Babbage Desktop!
             </Typography>
