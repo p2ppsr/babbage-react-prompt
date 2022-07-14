@@ -9,6 +9,9 @@ export default theme => ({
       padding: theme.spacing(3)
     }
   },
+  modal: {
+    maxWidth: '700px'
+  },
   steps_grid: {
     margin: theme.spacing(5),
     marginTop: theme.spacing(3),
