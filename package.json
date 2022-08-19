@@ -1,6 +1,6 @@
 {
   "name": "@babbage/react-prompt",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Onboards users to Babbage Desktop before loading your app",
   "main": "build/index.js",
   "repository": "git+https://github.com/p2ppsr/babbage-react-prompt",
@@ -16,8 +16,6 @@
   "dependencies": {
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.11.2",
-    "i": "^0.3.7",
-    "npm": "^8.5.4",
     "react-responsive-carousel": "^3.2.23"
   },
   "devDependencies": {
@@ -34,7 +32,7 @@
     "standard": "^15.0.0"
   },
   "peerDependencies": {
-    "@babbage/sdk": "^0.2.1",
+    "@babbage/sdk": "^0.3.0",
     "react": "*",
     "react-dom": "*"
   }
