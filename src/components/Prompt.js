@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { Carousel } from 'react-responsive-carousel'
 import { Typography, Button, Link } from '@material-ui/core'
 import { Info } from '@material-ui/icons'
+import BabbageDesktopDownloadButton from './BabbDownloadButton'
 
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
 
@@ -112,17 +113,7 @@ const CustomPrompt = ({
                 This app requires Babbage Desktop
               </Typography>
             </div>
-            <Button
-              color='primary'
-              className={classes.install_button}
-              variant='contained'
-              size='small'
-              onClick={() => {
-                window.open('https://projectbabbage.com/desktop#launch', '_blank')
-              }}
-            >
-              Install Babbage
-            </Button>
+            <BabbageDesktopDownloadButton/>
           </div>
         </div>
       </div>

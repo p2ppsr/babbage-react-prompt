@@ -9,8 +9,7 @@ import {
 import { useTheme, makeStyles } from '@material-ui/core/styles'
 import style from './style'
 import { isAuthenticated } from '@babbage/sdk'
-import DefaultPrompt from './components/DefaultPrompt'
-import CustomPrompt from './components/CustomPrompt'
+import Prompt from './components/Prompt'
 
 const useStyles = makeStyles(style, {
   name: 'BabbageReactPrompt'
@@ -18,7 +17,7 @@ const useStyles = makeStyles(style, {
 
 const checkStatus = async () => {
   try {
-    const authenticated = await isAuthenticated(undefined, false)
+    const authenticated = false//await isAuthenticated(undefined, false)
     if (!authenticated) {
       return false
     }
@@ -35,8 +34,7 @@ export default ({
   authorUrl,
   appImages,
   appIcon,
-  description,
-  customPrompt = false
+  description = ''
 }) => {
   const classes = useStyles()
   const theme = useTheme()
@@ -68,18 +66,14 @@ export default ({
         fullScreen={isFullscreen}
       >
         <DialogContent>
-          {
-            customPrompt
-              ? <CustomPrompt
-                  appName={appName}
-                  author={author}
-                  authorUrl={authorUrl}
-                  appImages={appImages}
-                  appIcon={appIcon}
-                  description={description}
-                />
-              : <DefaultPrompt />
-          }
+          <Prompt
+            appName={appName}
+            author={author}
+            authorUrl={authorUrl}
+            appImages={appImages}
+            appIcon={appIcon}
+            description={description}
+          />
           <center>
             <Typography variant='h5' paragraph>
               "{appName}" Requires Babbage Desktop!
@@ -88,13 +82,7 @@ export default ({
           <div className={classes.steps_grid}>
             <Typography className={classes.step_num}>1.</Typography>
             <Typography>
-              Download or launch{' '}
-              <a
-                href='https://projectbabbage.com/desktop#launch'
-                target='_blank'
-              >
-                Babbage Desktop
-              </a>
+              Download or launch Babbage Desktop
             </Typography>
             <Typography className={classes.step_num}>2.</Typography>
             <Typography>
