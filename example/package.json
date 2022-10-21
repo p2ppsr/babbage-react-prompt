@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@babbage/react-prompt": "file:..",
-    "@babbage/sdk": "^0.1.0",
+    "@babbage/sdk": "^0.4.6",
     "react": "file:../node_modules/react",
     "react-dom": "file:../node_modules/react-dom",
     "react-scripts": "file:../node_modules/react-scripts"

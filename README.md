@@ -14,7 +14,6 @@ import App from './App'
 
 ReactDOM.render(
   <BabbagePrompt
-    customPrompt
     appName='Your App'
     author='Your Name'
     authorUrl='https://yourwebsite.com'
@@ -40,7 +39,6 @@ Various props can be used to control the component:
 Prop Name      | Description
 ---------------|------------------------------------------
 `children`     | This is your entire React app. When Babbage is running, your app will be allowed to render. Otherwise, the React Prompt will be shown.
-`customPrompt` | Can be `false` (the default) or `true`. When false, only uses the `appName` prop and shows a basic UI. When `true`, uses all props to show a more advanced UI with an app description and preview screenshots.
 `appName`      | Sets the name of the app in the UI.
 `appIcon`      | A URL to an image to use as your app icon.
 `description`  | A paragraph that describes your app. If it contains the `\n` character, it will be split and a "Learn More" link will be shown.
