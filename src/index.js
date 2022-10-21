@@ -1,19 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import {
-  Dialog,
-  Typography,
-  DialogContent,
-  useMediaQuery,
-  LinearProgress
-} from '@material-ui/core'
-import { useTheme, makeStyles } from '@material-ui/core/styles'
-import style from './style'
 import { isAuthenticated } from '@babbage/sdk'
 import Prompt from './components/Prompt'
-
-const useStyles = makeStyles(style, {
-  name: 'BabbageReactPrompt'
-})
+import Theme from './components/Theme'
 
 const checkStatus = async () => {
   try {
@@ -27,23 +15,23 @@ const checkStatus = async () => {
   return true
 }
 
-export default ({
+const BabbageReactPrompt = ({
   children,
-  appName = 'This App',
-  author,
+  appName = 'Example App',
+  author = 'Example Author',
   authorUrl,
-  appImages,
-  appIcon,
-  description = ''
+  appImages = [
+    'https://projectbabbage.com/assets/images/babbage-screenshot.png',
+    'https://projectbabbage.com/assets/images/authrite-spec.png'
+  ],
+  appIcon = 'https://projectbabbage.com/favicon.ico',
+  description = 'This is an example app description. Provide a paragraph or two that describes your app, so that people know what they\'re getting when they want to check it out.'
 }) => {
-  const classes = useStyles()
-  const theme = useTheme()
-  const isFullscreen = useMediaQuery(theme.breakpoints.down('xs'))
   const [open, setOpen] = useState(null)
 
   useEffect(() => {
     (async () => {
-      while (await checkStatus() === false) {
+      while ((await checkStatus()) === false) {
         setOpen(true)
         await new Promise(resolve => setTimeout(resolve, 1000))
       }
@@ -55,56 +43,21 @@ export default ({
     return children
   } else if (open === true) {
     return (
-      <Dialog
-        open={open}
-        maxWidth='sm'
-        fullWidth
-        classes={{
-          paper: classes.modal
-        }}
-        scroll='body'
-        fullScreen={isFullscreen}
-      >
-        <DialogContent>
-          <Prompt
-            appName={appName}
-            author={author}
-            authorUrl={authorUrl}
-            appImages={appImages}
-            appIcon={appIcon}
-            description={description}
-          />
-          <center>
-            <Typography variant='h5' paragraph>
-              "{appName}" Requires Babbage Desktop!
-            </Typography>
-          </center>
-          <div className={classes.steps_grid}>
-            <Typography className={classes.step_num}>1.</Typography>
-            <Typography>
-              Download or launch Babbage Desktop
-            </Typography>
-            <Typography className={classes.step_num}>2.</Typography>
-            <Typography>
-              Create your account
-            </Typography>
-            <Typography className={classes.step_num}>3.</Typography>
-            <Typography>
-              Start enjoying {appName}
-            </Typography>
-          </div>
-          <LinearProgress />
-          <center>
-            <Typography color='textSecondary' paragraph>
-              <i>
-                Waiting for Babbage Desktop...
-              </i>
-            </Typography>
-          </center>
-        </DialogContent>
-      </Dialog>
+      <Theme>
+        <Prompt
+          open={open}
+          appName={appName}
+          author={author}
+          authorUrl={authorUrl}
+          appImages={appImages}
+          appIcon={appIcon}
+          description={description}
+        />
+      </Theme>
     )
   } else {
     return null
   }
 }
+
+export default BabbageReactPrompt
