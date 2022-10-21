@@ -55,12 +55,12 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const CustomPrompt = ({
+const Prompt = ({
   appName,
   author,
   authorUrl,
   appImages = [],
-  appIcon,
+  appIcon = 'https://projectbabbage.com/favicon.ico',
   description
 }) => {
   const needsLearnMore = description.includes('\n')
@@ -148,4 +148,4 @@ const CustomPrompt = ({
   )
 }
 
-export default CustomPrompt
+export default Prompt
