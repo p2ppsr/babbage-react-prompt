@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { isAuthenticated } from '@babbage/sdk'
 import Prompt from './components/Prompt'
 import UnsupportedBrowser from './components/UnsupportedBrowser'
+import BravePrompt from './components/BravePrompt'
 import Theme from './components/Theme'
 
 const checkStatus = async () => {
@@ -59,7 +60,20 @@ const BabbageReactPrompt = ({
     })()
   }, [])
 
-  if (supportedBrowser === false) {
+  if (window.navigator.brave && supportedBrowser === false) {
+    return (
+      <Theme>
+        <BravePrompt
+          open={open}
+          appName={appName}
+          author={author}
+          authorUrl={authorUrl}
+          appImages={appImages}
+          appIcon={appIcon}
+          description={description}
+        />
+      </Theme>)
+  } else if (supportedBrowser === false) {
     return (
       <Theme>
         <UnsupportedBrowser
