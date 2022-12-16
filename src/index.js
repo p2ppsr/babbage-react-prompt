@@ -20,9 +20,6 @@ const checkStatus = async () => {
     }
   } catch (e) {
     let supportedBrowser = false
-    console.log('Error: ' + e.message) // e.message === 'Failed to fetch'
-    console.log('Browser: ' + browserName)
-    console.log('Is mobile: ' + isMobile)
     if (SUPPORTED_BROWSERS.includes(browserName) && !isMobile) {
       // Babbage MetaNet Client is not active
       supportedBrowser = true
