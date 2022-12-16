@@ -26,7 +26,7 @@ const checkStatus = async () => {
     }
   }
   return {
-    authenticated: false,
+    authenticated: true,
     supportedBrowser: true
   }
 }
