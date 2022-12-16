@@ -5,6 +5,7 @@ import UnsupportedBrowser from './components/UnsupportedBrowser'
 import BravePrompt from './components/BravePrompt'
 import Theme from './components/Theme'
 import { browserName, isMobile } from 'react-device-detect'
+import isBraveShieldsActive from './utils/isBraveShieldsActive'
 
 const SUPPORTED_BROWSERS = ['Chrome', 'Chromium', 'Opera', 'Edge', 'Firefox']
 
@@ -51,11 +52,13 @@ const BabbageReactPrompt = ({
 }) => {
   const [open, setOpen] = useState(null)
   const [supportedBrowser, setSupportedBrowser] = useState(true)
+  const [braveShieldsDetected, setBraveShieldsDetected] = useState(false)
 
   useEffect(() => {
     (async () => {
       let status = await checkStatus()
       while (status.authenticated === false) {
+        setBraveShieldsDetected(isBraveShieldsActive())
         setOpen(true)
         await new Promise(resolve => setTimeout(resolve, 1000))
 
@@ -70,7 +73,7 @@ const BabbageReactPrompt = ({
   if (open === false) {
     return children
   } else if (open === true) {
-    if (window.navigator.brave || browserName === 'Brave') {
+    if ((window.navigator.brave || browserName === 'Brave') && braveShieldsDetected) {
       return (
         <Theme>
           <BravePrompt
