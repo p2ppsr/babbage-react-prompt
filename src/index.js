@@ -18,9 +18,6 @@ const checkStatus = async () => {
     if (e.message === 'Failed to fetch') {
       // Babbage MetaNet Client is not active
       supportedBrowser = true
-    } else if (e.message === 'Load failed') {
-      // Incompatible browser
-      console.log('not supported')
     }
     return {
       authenticated: false,
