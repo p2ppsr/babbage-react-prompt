@@ -19,6 +19,7 @@
     "@mui/icons-material": "^5.10.9",
     "@mui/material": "^5.10.10",
     "@mui/styles": "^5.10.10",
+    "react-device-detect": "^2.2.2",
     "react-responsive-carousel": "^3.2.23"
   },
   "devDependencies": {

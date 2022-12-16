@@ -82,7 +82,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const Prompt = ({
+const BravePrompt = ({
   author,
   authorUrl,
   appIcon = 'https://projectbabbage.com/favicon.ico'
@@ -166,13 +166,16 @@ const Prompt = ({
         >
           Or use one of the following browsers:
           <br />
-          <img style={{ float: 'center', padding: '15px 5px 10px 20px', width: '60px' }} src='https://www.google.com/chrome/static/images/chrome-logo-m100.svg' />
-          <img style={{ float: 'center', padding: '15px 5px 10px 20px', width: '70px' }} src='https://www.mozilla.org/media/protocol/img/logos/firefox/browser/logo.eb1324e44442.svg' />
-          <img style={{ float: 'center', padding: '15px 5px 10px 20px', width: '80px' }} src='https://edgefrecdn.azureedge.net/shared/edgeweb/img/edge-icon.eaf0232.png' />
+          <div style={{ display: 'flex', float: 'center', 'flex-wrap': 'wrap', 'justify-content': 'center' }}>
+            <img style={{ float: 'center', padding: '15px 5px 10px 20px', width: '60px' }} src='https://www.google.com/chrome/static/images/chrome-logo-m100.svg' />
+            <img style={{ float: 'center', padding: '15px 5px 10px 20px', width: '60px' }} src='https://www.mozilla.org/media/protocol/img/logos/firefox/browser/logo.eb1324e44442.svg' />
+            <img style={{ float: 'center', padding: '15px 5px 10px 20px', width: '80px' }} src='https://edgefrecdn.azureedge.net/shared/edgeweb/img/edge-icon.eaf0232.png' />
+            <img style={{ float: 'center', padding: '15px 5px 10px 20px', width: '60px' }} src='https://cdn-production-opera-website.operacdn.com/staticfiles/assets/images/logo/logo-o.64d9b43037de.svg' />
+          </div>
         </Typography>
       </DialogContent>
     </Dialog>
   )
 }
 
-export default Prompt
+export default BravePrompt

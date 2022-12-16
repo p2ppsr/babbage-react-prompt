@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from '@mui/styles/makeStyles'
 import { Carousel } from 'react-responsive-carousel'
 import {
   Typography,
@@ -104,7 +104,7 @@ const Prompt = ({
 
   return (
     <Dialog
-      open={true}
+      open
       maxWidth='md'
       fullWidth
       scroll='body'
@@ -132,7 +132,7 @@ const Prompt = ({
                   <Typography color='textSecondary' className={classes.secondary}>
                     {author}
                   </Typography>
-                )}
+                  )}
             </div>
             <div className={classes.bottom_right_container}>
               <div>
@@ -140,21 +140,21 @@ const Prompt = ({
                   style={{
                     fontSize: '0.9em',
                     fontWeight: '300'
+                  }}
+                >
+                  <Info
+                    color='secondary'
+                    style={{
+                      height: '0.75em',
+                      marginBottom: '-0.15em'
                     }}
-                  >
-                    <Info
-                      color='secondary'
-                      style={{
-                        height: '0.75em',
-                        marginBottom: '-0.15em'
-                      }}
-                    />
-                    This app requires Babbage Desktop
-                  </Typography>
-                </div>
-                <BabbageDesktopDownloadButton/>
+                  />
+                  This app requires Babbage Desktop
+                </Typography>
               </div>
+              <BabbageDesktopDownloadButton />
             </div>
+          </div>
         </div>
         <Carousel
           showIndicators={false}

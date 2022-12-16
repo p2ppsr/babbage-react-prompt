@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import makeStyles from '@mui/styles/makeStyles'
+import { browserName, isMobile } from 'react-device-detect'
 import {
   Typography,
   Link,
@@ -102,9 +103,15 @@ const Prompt = ({
           <img src={appIcon} className={classes.app_icon} />
           <div className={classes.right_container}>
             <div>
-              <Typography style={{ fontWeight: 500 }} variant='h5'>
-                This browser does not support MetaNet applications
-              </Typography>
+
+              {isMobile &&
+                <Typography style={{ fontWeight: 500 }} variant='h5'>
+                  Mobile browsers do not support MetaNet applications
+                </Typography>}
+              {!isMobile &&
+                <Typography style={{ fontWeight: 500 }} variant='h5'>
+                  This browser does not support MetaNet applications
+                </Typography>}
               {authorUrl
                 ? (
                   <Link
@@ -142,21 +149,46 @@ const Prompt = ({
             </div>
           </div>
         </div>
-        <Typography
-          style={{
-            marginBottom: '2em',
-            whiteSpace: 'pre-line',
-            textAlign: 'center'
-          }}
-          paragraph
-        >
-          To use <b>MetaNet applications, </b>
-          try one of these browsers:
-          <br />
-          <img style={{ float: 'center', padding: '15px 5px 10px 20px', width: '60px' }} src='https://www.google.com/chrome/static/images/chrome-logo-m100.svg' />
-          <img style={{ float: 'center', padding: '15px 5px 10px 20px', width: '70px' }} src='https://www.mozilla.org/media/protocol/img/logos/firefox/browser/logo.eb1324e44442.svg' />
-          <img style={{ float: 'center', padding: '15px 5px 10px 20px', width: '80px' }} src='https://edgefrecdn.azureedge.net/shared/edgeweb/img/edge-icon.eaf0232.png' />
-        </Typography>
+        {isMobile &&
+
+          <Typography
+            style={{
+              marginBottom: '2em',
+              whiteSpace: 'pre-line',
+              textAlign: 'center'
+            }}
+            paragraph
+          >
+            To use <b>MetaNet applications, </b>
+            try one of these browsers on Desktop, or use the native version of this app if supported.
+            <br />
+            <div style={{ display: 'flex', float: 'center', 'flex-wrap': 'wrap', 'justify-content': 'center' }}>
+              <img style={{ float: 'center', padding: '15px 5px 10px 20px', width: '60px' }} src='https://www.google.com/chrome/static/images/chrome-logo-m100.svg' />
+              <img style={{ float: 'center', padding: '15px 5px 10px 20px', width: '60px' }} src='https://www.mozilla.org/media/protocol/img/logos/firefox/browser/logo.eb1324e44442.svg' />
+              <img style={{ float: 'center', padding: '15px 5px 10px 20px', width: '80px' }} src='https://edgefrecdn.azureedge.net/shared/edgeweb/img/edge-icon.eaf0232.png' />
+              <img style={{ float: 'center', padding: '15px 5px 10px 20px', width: '60px' }} src='https://cdn-production-opera-website.operacdn.com/staticfiles/assets/images/logo/logo-o.64d9b43037de.svg' />
+            </div>
+          </Typography>}
+        {!isMobile &&
+
+          <Typography
+            style={{
+              marginBottom: '2em',
+              whiteSpace: 'pre-line',
+              textAlign: 'center'
+            }}
+            paragraph
+          >
+            To use <b>MetaNet applications, </b>
+            try one of these browsers:
+            <br />
+            <div style={{ display: 'flex', float: 'center', 'flex-wrap': 'wrap', 'justify-content': 'center' }}>
+              <img style={{ float: 'center', padding: '15px 5px 10px 20px', width: '60px' }} src='https://www.google.com/chrome/static/images/chrome-logo-m100.svg' />
+              <img style={{ float: 'center', padding: '15px 5px 10px 20px', width: '60px' }} src='https://www.mozilla.org/media/protocol/img/logos/firefox/browser/logo.eb1324e44442.svg' />
+              <img style={{ float: 'center', padding: '15px 5px 10px 20px', width: '80px' }} src='https://edgefrecdn.azureedge.net/shared/edgeweb/img/edge-icon.eaf0232.png' />
+              <img style={{ float: 'center', padding: '15px 5px 10px 20px', width: '60px' }} src='https://cdn-production-opera-website.operacdn.com/staticfiles/assets/images/logo/logo-o.64d9b43037de.svg' />
+            </div>
+          </Typography>}
       </DialogContent>
     </Dialog>
   )

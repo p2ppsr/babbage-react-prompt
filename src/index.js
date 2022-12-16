@@ -4,6 +4,9 @@ import Prompt from './components/Prompt'
 import UnsupportedBrowser from './components/UnsupportedBrowser'
 import BravePrompt from './components/BravePrompt'
 import Theme from './components/Theme'
+import { browserName, isMobile } from 'react-device-detect'
+
+const SUPPORTED_BROWSERS = ['Chrome', 'Chromium', 'Opera', 'Edge', 'Firefox']
 
 const checkStatus = async () => {
   try {
@@ -16,7 +19,10 @@ const checkStatus = async () => {
     }
   } catch (e) {
     let supportedBrowser = false
-    if (e.message === 'Failed to fetch') {
+    console.log('Error: ' + e.message) // e.message === 'Failed to fetch'
+    console.log('Browser: ' + browserName)
+    console.log('Is mobile: ' + isMobile)
+    if (SUPPORTED_BROWSERS.includes(browserName) && !isMobile) {
       // Babbage MetaNet Client is not active
       supportedBrowser = true
     }
@@ -61,49 +67,48 @@ const BabbageReactPrompt = ({
     })()
   }, [])
 
-  if (window.navigator.brave && supportedBrowser === false) {
-    return (
-      <Theme>
-        <BravePrompt
-          open={open}
-          appName={appName}
-          author={author}
-          authorUrl={authorUrl}
-          appImages={appImages}
-          appIcon={appIcon}
-          description={description}
-        />
-      </Theme>)
-  } else if (supportedBrowser === false) {
-    return (
-      <Theme>
-        <UnsupportedBrowser
-          open={open}
-          appName={appName}
-          author={author}
-          authorUrl={authorUrl}
-          appImages={appImages}
-          appIcon={appIcon}
-          description={description}
-        />
-      </Theme>
-    )
-  } else if (open === false && supportedBrowser) {
+  if (open === false) {
     return children
   } else if (open === true) {
-    return (
-      <Theme>
-        <Prompt
-          open={open}
-          appName={appName}
-          author={author}
-          authorUrl={authorUrl}
-          appImages={appImages}
-          appIcon={appIcon}
-          description={description}
-        />
-      </Theme>
-    )
+    if (window.navigator.brave || browserName === 'Brave') {
+      return (
+        <Theme>
+          <BravePrompt
+            open={open}
+            author={author}
+            authorUrl={authorUrl}
+            appIcon={appIcon}
+          />
+        </Theme>)
+    } else if (supportedBrowser === false) {
+      return (
+        <Theme>
+          <UnsupportedBrowser
+            open={open}
+            appName={appName}
+            author={author}
+            authorUrl={authorUrl}
+            appImages={appImages}
+            appIcon={appIcon}
+            description={description}
+          />
+        </Theme>
+      )
+    } else {
+      return (
+        <Theme>
+          <Prompt
+            open={open}
+            appName={appName}
+            author={author}
+            authorUrl={authorUrl}
+            appImages={appImages}
+            appIcon={appIcon}
+            description={description}
+          />
+        </Theme>
+      )
+    }
   } else {
     return null
   }
