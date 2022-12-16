@@ -166,9 +166,9 @@ const Prompt = ({
         >
           Or use one of the following browsers:
           <br />
-          <img style={{ float: 'center', padding: '15px 5px 10px 20px', width: '60px' }} src='https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Google_Chrome_icon_%28February_2022%29.svg/2048px-Google_Chrome_icon_%28February_2022%29.svg.png' />
-          <img style={{ float: 'center', padding: '15px 5px 10px 20px', width: '60px' }} src='https://design.firefox.com/product-identity/firefox/firefox/firefox-logo.png' />
-          <img style={{ float: 'center', padding: '15px 5px 10px 20px', width: '60px' }} src='https://cdn.vox-cdn.com/thumbor/S_6JSDGmzwOkQ-b_do-S6ZRG-Ko=/0x0:1980x1320/1400x1400/filters:focal(990x660:991x661)/cdn.vox-cdn.com/uploads/chorus_asset/file/19341372/microsoftedgenewlogo.jpg' />
+          <img style={{ float: 'center', padding: '15px 5px 10px 20px', width: '60px' }} src='https://www.google.com/chrome/static/images/chrome-logo-m100.svg' />
+          <img style={{ float: 'center', padding: '15px 5px 10px 20px', width: '70px' }} src='https://www.mozilla.org/media/protocol/img/logos/firefox/browser/logo.eb1324e44442.svg' />
+          <img style={{ float: 'center', padding: '15px 5px 10px 20px', width: '80px' }} src='https://edgefrecdn.azureedge.net/shared/edgeweb/img/edge-icon.eaf0232.png' />
         </Typography>
       </DialogContent>
     </Dialog>
