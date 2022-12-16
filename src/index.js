@@ -10,7 +10,8 @@ const checkStatus = async () => {
     const authenticated = await isAuthenticated(undefined, false)
     if (!authenticated) {
       return {
-        authenticated: true
+        authenticated: false,
+        supportedBrowser: true
       }
     }
   } catch (e) {
@@ -24,7 +25,10 @@ const checkStatus = async () => {
       supportedBrowser
     }
   }
-  return true
+  return {
+    authenticated: false,
+    supportedBrowser: true
+  }
 }
 
 const BabbageReactPrompt = ({
