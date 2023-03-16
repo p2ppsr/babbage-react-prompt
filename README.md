@@ -1,6 +1,6 @@
 # @babbage/react-prompt
 
-Onboards users to Babbage Desktop before loading your app
+Onboards users to the Babbage MetaNet Client before loading your app
 
 ## Usage
 
@@ -30,7 +30,7 @@ ReactDOM.render(
 )
 ```
 
-Your app will only be rendered once the user has installed Babbage Desktop. Otherwise, they will see a modal with instructions on how to get it set up.
+Your app will only be rendered once the user has installed the Babbage MetaNet Client. Otherwise, they will see a modal with instructions on how to get it set up.
 
 ## Props
 
