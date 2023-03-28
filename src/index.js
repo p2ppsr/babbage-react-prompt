@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { isAuthenticated } from '@babbage/sdk'
+import { getNetwork, isAuthenticated } from '@babbage/sdk'
 import Prompt from './components/Prompt'
+import GetAppClientPrompt from './components/GetAppClientPrompt'
 import UnsupportedBrowser from './components/UnsupportedBrowser'
 import BravePrompt from './components/BravePrompt'
 import Theme from './components/Theme'
@@ -34,7 +35,19 @@ const checkStatus = async () => {
     supportedBrowser: true
   }
 }
-
+const checkNetwork = async (supportedMetaNet) => {
+  // Check correct network is being used for this App
+  const network = await getNetwork()
+  if (network === 'test' && supportedMetaNet === 'mainnet') {
+    // This App ONLY works with Mainnet - Mainline client
+    return 'need-mainnet'
+  } else if ( network === 'main' && supportedMetaNet === 'testnet') {
+    // This App ONLY works with Testnet - Stageline client
+    return 'need-testnet'
+  }
+  // This App can work with both networks (i.e. universal) - Either Mainline or Stageline client
+  return ''
+ }
 const BabbageReactPrompt = ({
   children,
   appName = 'Example App',
@@ -45,8 +58,18 @@ const BabbageReactPrompt = ({
     'https://projectbabbage.com/assets/images/authrite-spec.png'
   ],
   appIcon = 'https://projectbabbage.com/favicon.ico',
-  description = 'This is an example app description. Provide a paragraph or two that describes your app, so that people know what they\'re getting when they want to check it out.'
+  description = 'This is an example app description. Provide a paragraph or two that describes your app, so that people know what they\'re getting when they want to check it out.',
+  supportedMetaNet='universal', //default, or should be 'mainnet'/'testnet' -------------------------------------------
+  // iOS, Android, Windows Phone, Windows, Mac OS
+  nativeAppUrls= {
+    iOS: '...',
+    Android: '...',
+    'Windows Phone': '...',
+    Windows: '...',
+    'Mac OS': '...'
+  }
 }) => {
+  const [networkStatus, setNetworkStatus] = useState('')
   const [open, setOpen] = useState(null)
   const [supportedBrowser, setSupportedBrowser] = useState(true)
   const [braveShieldsDetected, setBraveShieldsDetected] = useState(false)
@@ -61,14 +84,105 @@ const BabbageReactPrompt = ({
 
         // Get Browser Status
         status = await checkStatus()
-        setSupportedBrowser(status.supportedBrowser)
+        if (status.authenticated === false) {
+          // Only interested in supported browsers status, if not authenticated
+          setSupportedBrowser(status.supportedBrowser)
+        }
       }
+      setNetworkStatus(await checkNetwork(supportedMetaNet))
       setOpen(false)
     })()
   }, [])
 
+  if (supportedMetaNet !== 'universal' && supportedMetaNet !== 'testnet' && supportedMetaNet !== 'mainnet') {
+    const e = new Error("supportedMetaNet param must be 'universal'/'testnet'/'mainnet'")
+    e.code = 'ERR_INVALID_SUPPORTED_PARAM'
+    throw e
+  } 
   if (open === false) {
-    return children
+    if (networkStatus === 'need-mainnet') {
+      // This App ONLY works with Mainnet - Mainline client
+      if (isMobile) {
+        return (
+          <Theme>
+            <GetAppClientPrompt
+              open={true}
+              author={author}
+              authorUrl={authorUrl}
+              appIcon={appIcon}
+              appName={appName}
+              supportedMetaNet={supportedMetaNet}
+              url='https://projectbabbage.com/docs/dev-downloads'
+              nativeAppUrls={nativeAppUrls}
+              titlePreApp={'Your current Stageline MetaNet client does not work with this:'}
+              titlePostApp={'App'}
+              instructionPreApp={'Please download the Mainline client for the Operating System you wish to use with this:'}
+              instructionPostApp={'App'}
+            />
+          </Theme>
+        )
+      } else {
+        return (
+          <Theme>
+            <GetAppClientPrompt
+              open={true}
+              author={author}
+              authorUrl={authorUrl}
+              appIcon={appIcon}
+              appName={appName}
+              supportedMetaNet={supportedMetaNet}
+              url='https://projectbabbage.com/docs/dev-downloads'
+              titlePreApp={'Your current Stageline MetaNet client does not work with this:'}
+              titlePostApp={'App'}
+              instructionPreApp={'Please download the Mainline client for the Operating System you wish to use with this:'}
+              instructionPostApp={'App'}
+            />
+          </Theme>
+        )
+      }
+    } else if (networkStatus === 'need-testnet') {
+      // This App ONLY works with Testnet - Stageline client
+      if (isMobile) {
+        return (
+          <Theme>
+            <GetAppClientPrompt
+              open={true}
+              author={author}
+              authorUrl={authorUrl}
+              appIcon={appIcon}
+              appName={appName}
+              supportedMetaNet={supportedMetaNet}
+              url='https://projectbabbage.com/docs/dev-downloads'
+              nativeAppUrls={nativeAppUrls}
+              titlePreApp={'Your current Mainline MetaNet client does not work with this:'}
+              titlePostApp={'App'}
+              instructionPreApp={'Please download the Stageline client for the Operating System you wish to use with this:'}
+              instructionPostApp={'App'}
+            />
+          </Theme>
+        )
+      } else {
+        return (
+          <Theme>
+            <GetAppClientPrompt
+              open={true}
+              author={author}
+              authorUrl={authorUrl}
+              appIcon={appIcon}
+              appName={appName}
+              supportedMetaNet={supportedMetaNet}
+              url='https://projectbabbage.com/docs/dev-downloads'
+              titlePreApp={'Your current Mainline MetaNet client does not work with this:'}
+              titlePostApp={'App'}
+              instructionPreApp={'Please download the Stageline client for the Operating System you wish to use with this:'}
+              instructionPostApp={'App'}
+            />
+          </Theme>
+        )
+      }
+    } else {
+      return children
+    }
   } else if (open === true) {
     if ((window.navigator.brave || browserName === 'Brave') && braveShieldsDetected) {
       return (
@@ -105,6 +219,8 @@ const BabbageReactPrompt = ({
             appImages={appImages}
             appIcon={appIcon}
             description={description}
+            supportedMetaNet={supportedMetaNet}
+            nativeAppUrls={nativeAppUrls}
           />
         </Theme>
       )

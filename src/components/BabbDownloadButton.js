@@ -25,33 +25,53 @@ const options = [
   {
     buttonText: 'Install (macOS)',
     downloadFilename: 'Babbage Desktop.dmg',
-    downloadURL: '/desktop/res/Babbage%20Desktop.dmg'
+    downloadURL: {
+      testnet: '/desktop/res/stageline/MetaNet%20Stageline.dmg',
+      mainnet: '/desktop/res/MetaNet%20Client.dmg'
+    }
   },
   {
     buttonText:
       'Install (Windows)',
     downloadFilename: 'Babbage Desktop.exe',
-    downloadURL: '/desktop/res/Babbage%20Desktop.exe'
-  },
-  {
-    buttonText:
-      'Install (Linux snap)',
-    downloadFilename: 'Babbage Desktop.snap',
-    downloadURL: '/desktop/res/Babbage%20Desktop.snap'
+    downloadURL: {
+      testnet: '/desktop/res/stageline/MetaNet%20Stageline.exe',
+      mainnet: '/desktop/res/MetaNet%20Client.exe'
+    }
   },
   {
     buttonText:
       'Install (Linux AppImage)',
     downloadFilename: 'Babbage Desktop.AppImage',
-    downloadURL: '/desktop/res/Babbage%20Desktop.AppImage'
+    downloadURL: {
+      testnet: '/desktop/res/stageline/MetaNet%20Stageline.AppImage',
+      mainnet: '/desktop/res/MetaNet%20Client.AppImage'
+    }
   },
   {
     buttonText:
-      'Stageline & Devline'
+      'Install (Linux snap)',
+    downloadFilename: 'Babbage Desktop.snap',
+    downloadURL: {
+      testnet: '/desktop/res/stageline/MetaNet%20Stageline.snap',
+      mainnet: '/desktop/res/MetaNet%20Client.snap'
+    }
+  },
+  {
+    buttonText: {
+      testnet: '',
+      mainnet: '',
+      universal: 'Stageline & Devline'
+    }
   }
 ]
 
-export default function SplitButton ({ googlePlayLink, appStoreLink }) {
+export default function SplitButton ({
+  supportedMetaNet='universal',
+  googlePlayLink,
+  appStoreLink 
+}) {
+  const supportedMetaNetDownload = supportedMetaNet === 'universal'?'mainnet':supportedMetaNet
   const [menuOpen, setMenuOpen] = useState(false)
   const [downloadURL, setDownloadURL] = useState('/desktop/res/Babbage%20Desktop.exe')
   const anchorRef = useRef(null)
@@ -64,7 +84,7 @@ export default function SplitButton ({ googlePlayLink, appStoreLink }) {
   const [disabled, setDisabled] = useState(false)
   const handleDownload = () => {
     const a = document.createElement('a')
-    a.href = `https://projectbabbage.com${downloadURL}`
+    a.href = `https://projectbabbage.com${downloadURL[supportedMetaNetDownload]}`
     a.download = downloadFilename
     a.click()
     setDownloading(true)
@@ -177,7 +197,9 @@ export default function SplitButton ({ googlePlayLink, appStoreLink }) {
                         setMenuOpen(false)
                       }}
                     >
-                      {option.buttonText} {index === 4 && <OpenInNew />}
+                      {index === 4 && option.buttonText[supportedMetaNet]}
+                      {index === 4 && option.buttonText[supportedMetaNet] !== '' && <OpenInNew />}
+                      {index !== 4 && option.buttonText}
                     </MenuItem>
                   ))}
                 </MenuList>
