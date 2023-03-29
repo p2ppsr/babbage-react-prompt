@@ -9,6 +9,7 @@ import { browserName, isMobile } from 'react-device-detect'
 import isBraveShieldsActive from './utils/isBraveShieldsActive'
 
 const SUPPORTED_BROWSERS = ['Chrome', 'Chromium', 'Opera', 'Edge', 'Firefox']
+const SUPPORTED_OS = ['iOS', 'Android', 'Windows Phonne', 'Windows', 'Mac OS', 'Linux']
 
 const checkStatus = async () => {
   try {
@@ -60,13 +61,14 @@ const BabbageReactPrompt = ({
   appIcon = 'https://projectbabbage.com/favicon.ico',
   description = 'This is an example app description. Provide a paragraph or two that describes your app, so that people know what they\'re getting when they want to check it out.',
   supportedMetaNet='universal', //default, or should be 'mainnet'/'testnet' -------------------------------------------
-  // iOS, Android, Windows Phone, Windows, Mac OS
+  // osName from react-device-detect offers the following: iOS, Android, Windows Phone, Windows, Mac OS, Linux
   nativeAppUrls= {
     iOS: '...',
     Android: '...',
-    'Windows Phone': '...',
-    Windows: '...',
-    'Mac OS': '...'
+    //'Windows Phone': '...',
+    //Windows: '...',
+    //'Mac OS': '...',
+    //Linux: '...'
   }
 }) => {
   const [networkStatus, setNetworkStatus] = useState('')
@@ -85,7 +87,7 @@ const BabbageReactPrompt = ({
         // Get Browser Status
         status = await checkStatus()
         if (status.authenticated === false) {
-          // Only interested in supported browsers status, if not authenticated
+          // Only interested in supported browser's status, if not authenticated
           setSupportedBrowser(status.supportedBrowser)
         }
       }
@@ -94,11 +96,19 @@ const BabbageReactPrompt = ({
     })()
   }, [])
 
+  Object.keys(nativeAppUrls).map((key, i) => {
+    if (!SUPPORTED_OS.includes(key)) {
+      const e = new Error("nativeAppUrls param key must be in ['iOS', 'Android', 'Windows Phonne', 'Windows', 'Mac OS', 'Linux']")
+      e.code = 'ERR_INVALID_SUPPORTED_OS_PARAM'
+      throw e
+    }
+  })
   if (supportedMetaNet !== 'universal' && supportedMetaNet !== 'testnet' && supportedMetaNet !== 'mainnet') {
     const e = new Error("supportedMetaNet param must be 'universal'/'testnet'/'mainnet'")
     e.code = 'ERR_INVALID_SUPPORTED_PARAM'
     throw e
   } 
+
   if (open === false) {
     if (networkStatus === 'need-mainnet') {
       // This App ONLY works with Mainnet - Mainline client
@@ -209,6 +219,7 @@ const BabbageReactPrompt = ({
         </Theme>
       )
     } else {
+      /*** TBD Shouldn't this check for supported network, as well? We should include the same - GetAppClientPromp component here?*/
       return (
         <Theme>
           <Prompt

@@ -134,8 +134,6 @@ const GetAppClientPrompt = ({
   const classes = useStyles()
   const theme = useTheme()
   const isFullscreen = useMediaQuery(theme.breakpoints.down('sm'))
-  console.log('nativeAppUrls=', nativeAppUrls)
-  console.log('getNativeAppUrlsElements()=', getNativeAppUrlsElements(nativeAppUrls))
   return (
     <Dialog
       open
