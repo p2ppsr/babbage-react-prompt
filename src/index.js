@@ -219,8 +219,6 @@ const BabbageReactPrompt = ({
             appImages={appImages}
             appIcon={appIcon}
             description={description}
-            supportedMetaNet={supportedMetaNet}
-            nativeAppUrls={nativeAppUrls}
           />
         </Theme>
       )
