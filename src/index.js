@@ -219,7 +219,7 @@ const BabbageReactPrompt = ({
         </Theme>
       )
     } else {
-      /*** TBD Shouldn't this check for supported network, as well? We should include the same functionality - GetAppClientPromp component here?***/
+      /*** TBD Shouldn't this check for supported network, as well? We should include the same functionality - AppClientPrompt component here?***/
       return (
         <Theme>
           <Prompt
