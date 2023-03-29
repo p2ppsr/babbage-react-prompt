@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { getNetwork, isAuthenticated } from '@babbage/sdk'
 import Prompt from './components/Prompt'
-import GetAppClientPrompt from './components/GetAppClientPrompt'
+import AppClientPrompt from './components/AppClientPrompt'
 import UnsupportedBrowser from './components/UnsupportedBrowser'
 import BravePrompt from './components/BravePrompt'
 import Theme from './components/Theme'
@@ -115,7 +115,7 @@ const BabbageReactPrompt = ({
       if (isMobile) {
         return (
           <Theme>
-            <GetAppClientPrompt
+            <AppClientPrompt
               open={true}
               author={author}
               authorUrl={authorUrl}
@@ -134,7 +134,7 @@ const BabbageReactPrompt = ({
       } else {
         return (
           <Theme>
-            <GetAppClientPrompt
+            <AppClientPrompt
               open={true}
               author={author}
               authorUrl={authorUrl}
@@ -155,7 +155,7 @@ const BabbageReactPrompt = ({
       if (isMobile) {
         return (
           <Theme>
-            <GetAppClientPrompt
+            <AppClientPrompt
               open={true}
               author={author}
               authorUrl={authorUrl}
@@ -174,7 +174,7 @@ const BabbageReactPrompt = ({
       } else {
         return (
           <Theme>
-            <GetAppClientPrompt
+            <AppClientPrompt
               open={true}
               author={author}
               authorUrl={authorUrl}
@@ -219,7 +219,7 @@ const BabbageReactPrompt = ({
         </Theme>
       )
     } else {
-      /*** TBD Shouldn't this check for supported network, as well? We should include the same - GetAppClientPromp component here?*/
+      /*** TBD Shouldn't this check for supported network, as well? We should include the same functionality - GetAppClientPromp component here?***/
       return (
         <Theme>
           <Prompt
