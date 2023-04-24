@@ -153,7 +153,8 @@ export default function SplitButton ({
 	}
 	return (
 		<div>
-			<img className={classes.iconStyle} src={supportedMetaNetAppDownload + '-icon.png'}/>
+			<img className={classes.iconStyle}
+				src={`https://cdn.projectbabbage.com/media/pictures/${supportedMetaNetAppDownload}-icon.png`} />
 			<ButtonGroup
 				className={classes.buttonStyle}
 				size='small'
