@@ -1,191 +1,292 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable semi */
 import React, { useState, useRef, useEffect } from 'react'
-import { KeyboardArrowDownOutlined } from '@mui/icons-material'
+import { Info, Download, KeyboardArrowDownOutlined } from '@mui/icons-material'
 import {
-  Typography,
-  ButtonGroup,
-  Button,
-  Popper,
-  Grow,
-  Paper,
-  ClickAwayListener,
-  MenuList,
-  MenuItem
+	Typography,
+	ButtonGroup,
+	Button,
+	Popper,
+	Grow,
+	Paper,
+	ClickAwayListener,
+	MenuList,
+	MenuItem
 } from '@mui/material'
-import makeStyles from '@mui/styles/makeStyles';
-import OpenInNew from '@mui/icons-material/OpenInNew'
+import makeStyles from '@mui/styles/makeStyles'
+import { osName } from 'react-device-detect'
+import { MENU_SELECT_AND_DOWNLOAD_BUTTON_ID, INSTALL_BUTTON_ID, installOptions } from '../utils/general'
 
-const useStyles = makeStyles(theme => ({
-  button: {
-    textTransform: 'none !important'
-  }
+const useStyles = makeStyles(() => ({
+	iconStyle: {
+		paddingRight: '3px', 
+		position: 'relative', 
+		top: '0px', 
+		width: '1.0em'
+	},
+	button: {
+		textTransform: 'none !important'
+	}
 }), {
-  name: 'BabbDownloadButton'
+	name: 'BabbDownloadButton'
 })
-const options = [
-  {
-    buttonText: 'Install (macOS)',
-    downloadFilename: 'Babbage Desktop.dmg',
-    downloadURL: '/desktop/res/Babbage%20Desktop.dmg'
-  },
-  {
-    buttonText:
-      'Install (Windows)',
-    downloadFilename: 'Babbage Desktop.exe',
-    downloadURL: '/desktop/res/Babbage%20Desktop.exe'
-  },
-  {
-    buttonText:
-      'Install (Linux snap)',
-    downloadFilename: 'Babbage Desktop.snap',
-    downloadURL: '/desktop/res/Babbage%20Desktop.snap'
-  },
-  {
-    buttonText:
-      'Install (Linux AppImage)',
-    downloadFilename: 'Babbage Desktop.AppImage',
-    downloadURL: '/desktop/res/Babbage%20Desktop.AppImage'
-  },
-  {
-    buttonText:
-      'Stageline & Devline'
-  }
-]
+const HILIGHT_COLOR = '#848484'
 
-export default function SplitButton ({ googlePlayLink, appStoreLink }) {
-  const [menuOpen, setMenuOpen] = useState(false)
-  const [downloadURL, setDownloadURL] = useState('/desktop/res/Babbage%20Desktop.exe')
-  const anchorRef = useRef(null)
-  const [selectedOS, setSelectedOS] = useState(1)
-  const [downloading, setDownloading] = useState(false)
-  const classes = useStyles()
-  const [downloadFilename, setDownloadFilename] = useState(
-    'Babbage Desktop.exe'
-  )
-  const [disabled, setDisabled] = useState(false)
-  const handleDownload = () => {
-    const a = document.createElement('a')
-    a.href = `https://projectbabbage.com${downloadURL}`
-    a.download = downloadFilename
-    a.click()
-    setDownloading(true)
-    setTimeout(() => {
-      setDownloading(false)
-    }, 3500)
-  }
+// Identical to osName from react-device-detect
+const osNames = {
+	'Mac OS': 0,
+	Windows: 1,
+	iOS: 2,
+	Android: 3,
+	'Windows Phone' : 4,
+	Linux: 5
+}
+export default function SplitButton ({
+	supportedMetaNet='universal',
+	onHoverMetaNetLink = false,
+	//googlePlayLink,
+	//appStoreLink 
+}) {
+	const osIndex = osNames[osName]
+	if ( osIndex !== 0 && osIndex !== 1 && osIndex !== 5) {
+		return null
+	}
+	const metanetHilightStyle = onHoverMetaNetLink === true
+		? {backgroundColor: HILIGHT_COLOR, paddingLeft: '1.0em'}
+	//? {backgroundColor: HILIGHT_COLOR, paddingTop: '1.0em', paddingLeft: '1.0em',paddingRight: '1.0em',paddingBottom: '-1.0em'}
+		: {paddingLeft: '1.0em'}
+	const [supportedMetaNetAppDownload, setSupportedMetaNetAppDownload] = useState(
+		supportedMetaNet === 'universal'
+			? 'mainnet'
+			: supportedMetaNet    
+	)
+	const [menuOpen, setMenuOpen] = useState(false)
+	const [downloadURL, setDownloadURL] = useState(
+		installOptions[1].downloadURL[supportedMetaNetAppDownload]
+	)
+	const anchorRef = useRef(null)
+	const [selectedOS, setSelectedOS] = useState(1)
+	const [downloading, setDownloading] = useState(false)
+	const [OSInstructions, setOSInstructions] = useState('')
+	const [selected, setSelected] = useState(false)
+	const classes = useStyles()
+	const [downloadFilename, setDownloadFilename] = useState(
+		installOptions[1].downloadFilename[supportedMetaNetAppDownload]
+	)
+	const [disabled, setDisabled] = useState(false)
+	const [onHoverSmallButton, setOnHoverSmallButton] = useState(false)
+	const [onHoverLargeButton, setOnHoverLargeButton] = useState(false)
 
-  const handleToggle = () => {
-    setMenuOpen((prevOpen) => !prevOpen)
-  }
-  useEffect(() => {
-    // Thanks to https://stackoverflow.com/a/38241481 for this
-    const platform = window.navigator.platform
-    const macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K']
-    const windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE']
-    let selection
-    if (macosPlatforms.indexOf(platform) !== -1) {
-      selection = 0
-    } else if (windowsPlatforms.indexOf(platform) !== -1) {
-      selection = 1
-    } else if (/Linux/.test(platform)) {
-      selection = 2
-    } else {
-      setDisabled(true)
-      return
-    }
-    setSelectedOS(selection)
-    setDownloadURL(options[selection].downloadURL)
-    setDownloadFilename(options[selection].downloadFilename)
-  }, [])
-  const handleClose = (event) => {
-    if (anchorRef.current && anchorRef.current.contains(event.target)) {
-      return
-    }
-    setMenuOpen(false)
-  }
-  if (disabled) {
-    return (
-      <Typography>
+	const handleDownload = () => {
+		const a = document.createElement('a')
+		a.href = `https://projectbabbage.com${downloadURL}`
+		a.download = downloadFilename
+		a.click()
+		setDownloading(true)
+		setTimeout(() => {
+			setDownloading(false)
+		}, 3500)
+	}
+
+	const handleToggle = () => {
+		// 5 = Linux
+		if (selectedOS >= 5 || supportedMetaNet === 'universal') {
+			setMenuOpen((prevOpen) => !prevOpen)
+		}
+	}
+	useEffect(() => {
+		let selection = osNames[osName]
+		// Graceful return if any selection is not recognised
+		if (selection === undefined || installOptions[selection] === undefined) {
+			setDisabled(true)
+			return
+		}
+		setSelectedOS(selection)
+		setDownloadURL(installOptions[selection].downloadURL[supportedMetaNetAppDownload])
+		setDownloadFilename(installOptions[selection].downloadFilename[supportedMetaNetAppDownload])
+		// Check if there are OS instructions and if so, set them
+		if (installOptions[selection].instructions !== undefined) {
+			setOSInstructions(installOptions[selection].instructions[supportedMetaNetAppDownload])
+		}
+	}, [])
+	const handleClose = (event) => {
+		if (anchorRef.current && anchorRef.current.contains(event.target)) {
+			return
+		}
+		setMenuOpen(false)
+	}
+	if (disabled) {
+		return (
+			<Typography style={metanetHilightStyle}>
         Available for Mac, Windows & Linux
-      </Typography>
-    )
-  }
-  return (
-    <>
-      <ButtonGroup
-        className={classes.buttonStyle}
-        size='small'
-        color='primary'
-        variant='contained'
-        ref={anchorRef}
-        aria-label='split button'
-        disabled={downloading}
-      >
-        <Button
-          className={classes.button}
-          onClick={handleDownload}
-        >
-          {downloading ? 'Downloading...' : options[selectedOS].buttonText}
-        </Button>
-        <Button
-          size='small'
-          aria-controls={menuOpen ? 'split-button-menu' : undefined}
-          aria-expanded={menuOpen ? 'true' : undefined}
-          aria-label='select desktop build to install'
-          aria-haspopup='menu'
-          color='secondary'
-          onClick={handleToggle}
-        >
-          <KeyboardArrowDownOutlined />
-        </Button>
-      </ButtonGroup>
-      <Popper
-        sx={{
-          zIndex: 1
-        }}
-        open={menuOpen}
-        anchorEl={anchorRef.current}
-        role={undefined}
-        transition
-        disablePortal
-      >
-        {({ TransitionProps, placement }) => (
-          <Grow
-            {...TransitionProps}
-            style={{
-              transformOrigin:
+			</Typography>
+		)
+	}
+	const instruction = visible => {
+		return (
+			<>
+				<br />
+				<br />
+				<div style={{visibility: visible}}>
+					{installOptions[selectedOS].instructions !== undefined
+						? <Info
+							color='secondary'
+							style={{
+								height: '0.8em',
+								marginBottom: '-0.15em'
+							}}
+						/>
+						: null
+					}
+					<Typography style={{
+						float: 'right', 
+						fontSize: '0.8em',
+						wordBreak: 'break-all',
+						wordWrap: 'break-word',
+						whiteSpace: 'pre-wrap',
+					}}>
+						{OSInstructions}
+					</Typography>
+				</div>
+			</>
+		)
+	}
+	return (
+		<div>
+			<img className={classes.iconStyle} src={supportedMetaNetAppDownload + '-icon.png'}/>
+			<ButtonGroup
+				className={classes.buttonStyle}
+				size='small'
+				color='primary'
+				variant='contained'
+				ref={anchorRef}
+				aria-label='split button'
+				disabled={downloading}
+			>
+				<Button id={`${INSTALL_BUTTON_ID}`} 
+					style={metanetHilightStyle}
+					className={classes.button}
+					onClick={handleDownload}
+					onMouseEnter={() => setOnHoverLargeButton(true)}
+					onMouseLeave={()=> setOnHoverLargeButton(false)}
+				>
+					{downloading === true ? 'Downloading...' : installOptions[selectedOS].buttonText}
+				</Button>
+				<Button id={`${MENU_SELECT_AND_DOWNLOAD_BUTTON_ID}`}
+					size='small'
+					aria-controls={menuOpen === true ? 'split-button-menu' : undefined}
+					aria-expanded={menuOpen === true ? 'true' : undefined}
+					aria-label='select desktop build to install'
+					aria-haspopup='menu'
+					color='secondary'
+					onClick={handleToggle}
+					onMouseEnter={() => setOnHoverSmallButton(true)}
+					onMouseLeave={()=> setOnHoverSmallButton(false)}          
+				>
+					{selected === true || (selectedOS < 5 && supportedMetaNet !== 'universal') // 5 = Linux
+						? <Download onClick={handleDownload} />
+						: onHoverSmallButton === true
+							? <KeyboardArrowDownOutlined id="menu-select-icon"/>
+							: <Download id="download-icon"/> 
+					}
+				</Button>
+			</ButtonGroup>
+			<Popper
+				sx={{
+					zIndex: 1
+				}}
+				open={menuOpen}
+				anchorEl={anchorRef.current}
+				role={undefined}
+				transition
+				disablePortal
+			>
+				{({ TransitionProps, placement }) => (
+					<Grow
+						{...TransitionProps}
+						style={{
+							transformOrigin:
                 placement === 'bottom' ? 'center top' : 'center bottom'
-            }}
-          >
-            <Paper>
-              <ClickAwayListener onClickAway={handleClose}>
-                <MenuList id='split-button-menu' autoFocusItem>
-                  {options.map((option, index) => (
-                    <MenuItem
-                      key={index}
-                      selected={index === selectedOS}
-                      onClick={(event) => {
-                        if (index === 4) {
-                          window.open(
-                            'https://projectbabbage.com/docs/dev-downloads',
-                            '_blank'
-                          )
-                        } else {
-                          setDownloadURL(option.downloadURL)
-                          setDownloadFilename(option.downloadFilename)
-                          setSelectedOS(index)
-                        }
-                        setMenuOpen(false)
-                      }}
-                    >
-                      {option.buttonText} {index === 4 && <OpenInNew />}
-                    </MenuItem>
-                  ))}
-                </MenuList>
-              </ClickAwayListener>
-            </Paper>
-          </Grow>
-        )}
-      </Popper>
-    </>
-  )
+						}}
+					>
+						<Paper>
+							<ClickAwayListener onClickAway={handleClose}>
+								<MenuList id='split-button-menu' autoFocusItem>
+									{installOptions.map((option, index) => {
+										if ((index > 4 && selectedOS > 4) || (supportedMetaNet === 'universal' && index === selectedOS)) {
+											return (
+												<MenuItem id={'menu-mainnet-' + index}
+													key={index}
+													selected={() => {
+														const selected = index === selectedOS
+														setSelected(selected)
+														return selected
+													}}
+													onClick={() => {
+														let type = supportedMetaNetAppDownload
+														if (supportedMetaNet === 'universal') {
+															type = 'mainnet'
+															setSupportedMetaNetAppDownload(type)
+														}
+														setDownloadURL(option.downloadURL[type])
+														setDownloadFilename(option.downloadFilename[type])
+														if (option.instructions !== undefined) {
+															setOSInstructions(option.instructions[type])
+														}
+														setSelectedOS(index)
+														setMenuOpen(false)
+													}}
+												>
+													{supportedMetaNet === 'universal' 
+                            && option.buttonText.replace('(', 'Mainline (') 
+													}
+													{supportedMetaNet !== 'universal' 
+                            && option.buttonText
+													}
+												</MenuItem>
+											)
+										}
+									})}
+									{supportedMetaNet === 'universal'
+										? installOptions.map((option, index) => {
+											if ((index > 4 && selectedOS > 4) 
+                        || index === selectedOS) {
+												return (
+													<MenuItem id={'menu-testnet-' + index}
+														key={index}
+														selected={() => {
+															const selected = index === selectedOS
+															setSelected(selected)
+															return selected
+														}}
+														onClick={() => {
+															setSupportedMetaNetAppDownload('testnet')
+															setDownloadURL(option.downloadURL['testnet'])
+															setDownloadFilename(option.downloadFilename['testnet'])
+															if (option.instructions !== undefined) {
+																setOSInstructions(option.instructions['testnet'])
+															}
+															setSelectedOS(index)
+															setMenuOpen(false)
+														}}
+													>  
+														{option.buttonText.replace('(', 'Stageline (')}
+													</MenuItem>
+												)
+											}
+										})
+										: null
+									}
+								</MenuList>
+							</ClickAwayListener>
+						</Paper>
+					</Grow>
+				)}
+			</Popper>
+			{onHoverLargeButton === true
+				? instruction('visible') 
+				: instruction('hidden') // Needed to keep all fields stationary
+			}
+		</div>
+	)
 }
