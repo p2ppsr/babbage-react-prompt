@@ -293,7 +293,7 @@ const Prompt = ({
 								display: 'flex',
 								float: 'center',
 								flexWrap: 'wrap',
-								jjustifyContent: 'center'
+								justifyContent: 'center'
 							}}
 						>
 							<img
