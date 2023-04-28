@@ -9,7 +9,7 @@ import { browserName } from 'react-device-detect'
 import isBraveShieldsActive from './utils/isBraveShieldsActive'
 import { SUPPORTED_OS, checkNetworkObj } from './utils/general'
 
-const SUPPORTED_BROWSERS = ['Chrome', 'Chromium', 'Opera', 'Edge', 'Firefox']
+const SUPPORTED_BROWSERS = ['Chrome', 'Chromium', 'Opera', 'Edge', 'Firefox', 'Brave']
 
 const checkStatus = async () => {
 	try {
