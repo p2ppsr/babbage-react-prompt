@@ -169,8 +169,8 @@ const BravePrompt = ({
 						style={{
 							display: 'flex',
 							float: 'center',
-							'flex-wrap': 'wrap',
-							'justify-content': 'center',
+							flexWrap: 'wrap',
+							justifyContent: 'center'
 						}}
 					>
 						<img
