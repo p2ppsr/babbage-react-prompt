@@ -292,8 +292,8 @@ const Prompt = ({
 							style={{
 								display: 'flex',
 								float: 'center',
-								'flex-wrap': 'wrap',
-								'justify-content': 'center',
+								flexWrap: 'wrap',
+								jjustifyContent: 'center'
 							}}
 						>
 							<img
