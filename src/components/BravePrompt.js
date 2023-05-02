@@ -152,7 +152,7 @@ const BravePrompt = ({
 					paragraph
 				>
           To use <b>MetaNet applications, </b>
-          please disable Brave shields for this site.
+          please disable Brave shields for this site
 					<br />
 				</Typography>
 				<Typography
@@ -163,7 +163,7 @@ const BravePrompt = ({
 					}}
 					paragraph
 				>
-          Or use one of the following browsers:
+          Or use one of the following browsers
 					<br />
 					<div
 						style={{

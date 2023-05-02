@@ -190,7 +190,7 @@ const Prompt = ({
 					>
             <br />
             To use <b>MetaNet applications, </b>
-            try one of these browsers on your mobile or desktop:
+            try one of these browsers on your mobile or desktop
 						<br />
 						<div
 							style={{
@@ -248,7 +248,7 @@ const Prompt = ({
 										<span className={classes.or_text}>OR</span>
 										<br />
 										<br />
-                    Use the native mobile version of this app:
+                    Use the native mobile version of this app
 										<br />
 									</div>
 									{supportedMetaNet === 'universal' ? (
@@ -286,7 +286,7 @@ const Prompt = ({
 					>
             <br />
             To use <b>MetaNet applications, </b>
-            try one of these browsers:
+            try one of these browsers
 						<br />
 						<div
 							style={{
