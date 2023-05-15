@@ -21,11 +21,11 @@ ReactDOM.render(
     authorUrl='https://yourwebsite.com'
     description='The app description can go here,\nand can contain multiple lines'
     appIcon='/icon.png'
-    appImages=[
+    appImages={[
       '/image1.png',
       '/image2.jpg'
-    ]
-    supportedMetaNet='mainnet' // 'universal' is the default (app works on both Mainnet & Testnet) or value can be just 'mainnet' or 'testnet'
+    ]}
+    supportedMetaNet='mainnet' // By default, only allows the app to work on 'mainnet'. You can specify 'testnet', or use 'universal' to support both.
     nativeAppUrls= {{
       iOS: {
         mainnet: 'https://youriOSappMainnetlink.com',
@@ -57,8 +57,8 @@ Prop Name           | Description
 `description`       | A paragraph that describes your app. If it contains the `\n` character, it will be split and a "Learn More" link will be shown.
 `author`            | Shown below your app name.
 `authorUrl`         | If provided, the author text becomes a clickable link that navigates to the given URL.
-`appImages`         | An array of strings, each containing a relative or absolute URL to an image that will be added to the app preview carousel.
-`supportedMetaNet`  | A string that indicates which networks your App supports. 'universal' (default value) means both Mainnet and Testnet are supported, while a value of 'testnet' means you only support Testnet (i.e. Stageline) and a value of 'mainnet' means you  only support Mainnet (i.e. Mainline). Any other value will be treated as the default value.
+`appImages`         | An array of strings, each containing a relative or absolute URL to an image that will be added to the app preview carousel. You can also provide an array of objects, each with `mainnet` and `testnet` properties for image URLs.
+`supportedMetaNet`  | A string that indicates which networks your App supports. A value of `mainnet` (the default) means you only support Mainnet (i.e. Mainline), while a value of `testnet` means you only support Testnet (i.e. Stageline). A value of `universal` means both Mainnet and Testnet are supported and any other value will be treated as the default value.
 `nativeAppUrls`     | If provided, an object that contains your native App URLs. The first level keys are of the form: `iOS`, `Android`, `Windows Phone`, `Windows`, `Mac OS`. These have a sub-object with keys of the form: `mainnet` and `testnet`.
 **Note:**           | No errors are thrown by the <Prompt/> component, a best guess is used for any invalid fields.
 

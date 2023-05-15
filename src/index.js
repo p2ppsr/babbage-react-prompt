@@ -34,7 +34,7 @@ const checkStatus = async () => {
 	}
 	return {
 		authenticated: true,
-		supportedBrowser: true,
+		supportedBrowser: true
 	}
 }
 const checkCorrectNetwork = async (supportedMetaNet) => {
@@ -45,7 +45,7 @@ const checkCorrectNetwork = async (supportedMetaNet) => {
 			(network === 'test' && supportedMetaNet === 'mainnet') ||
       (network === 'main' && supportedMetaNet === 'testnet')
 		),
-		network,
+		network
 	}
 }
 const update = (
@@ -101,7 +101,7 @@ const BabbageReactPrompt = ({
 		testnet: 'https://projectbabbage.com/favicon.ico',
 	},
 	description = 'This is an example app description. Provide a paragraph or two that describes your app, so that people know what they\'re getting when they want to check it out.',
-	supportedMetaNet = 'universal', //default, or should be 'mainnet'/'testnet, if different then set to 'universal'
+	supportedMetaNet = 'mainnet', //default, or should be 'universal'/'testnet, if different then set to 'mainnet'
 	// osName from react-device-detect offers the following: iOS, Android, Windows Phone, Windows, Mac OS, Linux
 	nativeAppUrls = {
 		iOS: '...',
@@ -176,7 +176,7 @@ const BabbageReactPrompt = ({
     supportedMetaNet !== 'testnet' &&
     supportedMetaNet !== 'mainnet'
 	) {
-		supportedMetaNet = 'universal'
+		supportedMetaNet = 'mainnet'
 	}
 	if (typeof nativeAppUrls !== 'object') {
 		nativeAppUrls = undefined

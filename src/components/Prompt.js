@@ -118,6 +118,21 @@ const useStyles = makeStyles((theme) => ({
 		fontSize: '1.5em !important',
 		color: theme.palette.secondary.main,
 	},
+	help_bar: {
+		backgroundColor: 'lightblue',
+		color: 'black',
+		borderRadius: '0.25em',
+		margin: '0.5em auto',
+		padding: '1.25em',
+		boxSizing: 'border-box',
+		transition: 'all 0.5s',
+		boxShadow: theme.shadows[2],
+		cursor: 'pointer',
+		userSelect: 'none',
+		'&:hover': {
+			boxShadow: theme.shadows[3]
+		}
+	}
 }))
 
 const Prompt = ({
@@ -276,10 +291,10 @@ const Prompt = ({
 			{appImages.map((url, i) => (
 				<div key={i}>
 					<img
-						src={
+						src={typeof url === 'object' ? 
 							url[
 								supportedMetaNet === 'universal' ? 'mainnet' : supportedMetaNet
-							]
+							] : url
 						}
 					/>
 				</div>
@@ -346,6 +361,12 @@ const Prompt = ({
 							</div>
 						</div>
 					</div>
+					{authenticated && supportedMetaNet === 'mainnet' && network === 'test' && (
+						<div className={classes.help_bar}><Typography>Looks like you're currently running MetaNet Stageline, but this app needs the Mainline MetaNet Client.</Typography></div>
+					)}
+					{authenticated && supportedMetaNet === 'testnet' && network === 'main' && (
+						<div className={classes.help_bar}><Typography>Looks like you're currently running the Mainline MetaNet Client, but this app wants you to use the Stageline client for testing.</Typography></div>
+					)}
 					{
 						// Need to check for undefined as there is a delay in authentication and carousel will be initially flash displayed
 						(authenticated !== undefined &&
@@ -415,7 +436,7 @@ const Prompt = ({
 						<LinearProgress color="secondary" />
 						<center>
 							<Typography color="textSecondary" paragraph>
-								<i>Waiting for MetaNet identity provider...</i>
+								<i>Waiting for MetaNet Connection...</i>
 							</Typography>
 						</center>
 					</div>

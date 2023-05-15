@@ -42,7 +42,7 @@ const osNames = {
 	Linux: 5
 }
 export default function SplitButton ({
-	supportedMetaNet='universal',
+	supportedMetaNet='mainnet',
 	onHoverMetaNetLink = false,
 	//googlePlayLink,
 	//appStoreLink 
