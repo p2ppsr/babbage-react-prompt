@@ -1,6 +1,6 @@
 {
   "name": "@babbage/react-prompt",
-  "version": "0.2.9",
+  "version": "0.2.10",
   "description": "Onboards users to Babbage Desktop before loading your app",
   "main": "build/index.js",
   "repository": "git+https://github.com/p2ppsr/babbage-react-prompt",
