@@ -1,31 +1,60 @@
-# @babbage/react-prompt
+Babbage React Prompt
+====================
 
-Onboards users to the Babbage MetaNet Client before loading your app. You can give Urls for your native app (mainnet and/or testnet)
-  
-This allows your user to choose the most appropriate version of your app for their current needs. 
+[![License](https://img.shields.io/badge/license-Open%20BSV-brightgreen)](https://github.com/bitcoin-sv/bitcoin-sv/blob/master/LICENSE)
 
-## Usage
+The Babbage React Prompt is a React component designed to simplify and streamline the onboarding process for users of your applications that require the Babbage MetaNet Client. It does this by ensuring that the MetaNet Client is running before rendering your application. If not, the user is greeted with an informative prompt that guides them through downloading and installing the correct MetaNet Client for their operating system.
 
-Wrap your app (or the part of it that requires the Babbage SDK to work) with this component. The child components will only render once Babbage Desktop is running.
+Table of Contents
+-----------------
 
-```js
-import React from 'react'
-import ReactDOM from 'react-dom'
-import BabbagePrompt from '@babbage/react-prompt'
-import App from './App'
+-   [Features](#features)
+-   [Installation](#installation)
+-   [Usage](#usage)
+-   [Props](#props)
+-   [Caveats](#caveats)
+-   [License](#license)
+
+Features
+--------
+
+1.  **Onboarding Simplified**: The Babbage React Prompt removes the need for users to search for setup instructions for the MetaNet Client, which can be a hurdle to adoption. It ensures the client is installed and running before your application is loaded.
+2.  **MetaNet Network Handling**: The component handles the different versions of your application that might exist on the MetaNet's mainnet and testnet networks, making it a powerful tool for alpha and beta testing.
+3.  **Customization**: Customize the onboarding modal with your app's name, description, author, icon, and preview images.
+4.  **Native App Support**: Specify links to your app's native versions on platforms like iOS and Android.
+
+Installation
+------------
+
+To install Babbage React Prompt:
+
+```sh
+npm install @babbage/react-prompt
+```
+
+Usage
+-----
+
+Wrap your app (or the part of it that requires the Babbage SDK to work) with this component. Your app will only be rendered once the Babbage MetaNet Client is running. Here is an example:
+
+```jsx
+import React from 'react';
+import ReactDOM from 'react-dom';
+import BabbagePrompt from '@babbage/react-prompt';
+import App from './App';
 
 ReactDOM.render(
   <BabbagePrompt
     appName='Your App'
     author='Your Name'
     authorUrl='https://yourwebsite.com'
-    description='The app description can go here,\nand can contain multiple lines'
+    description='This is your app description.'
     appIcon='/icon.png'
     appImages={[
       '/image1.png',
       '/image2.jpg'
     ]}
-    supportedMetaNet='mainnet' // By default, only allows the app to work on 'mainnet'. You can specify 'testnet', or use 'universal' to support both.
+    supportedMetaNet='mainnet'
     nativeAppUrls= {{
       iOS: {
         mainnet: 'https://youriOSappMainnetlink.com',
@@ -37,31 +66,35 @@ ReactDOM.render(
       }
     }}
   >
-    <App>
+    <App />
   </BabbagePrompt>,
   document.getElementById('root')
-)
+);
 ```
 
-Your app will only be rendered once the user has installed the Babbage MetaNet Client. Otherwise, they will see a modal with instructions on how to get it set up.
+Props
+-----
 
-## Props
+Refer to the table below for the various props that can be used with the Babbage React Prompt.
 
-Various props can be used to control the component:
+| Prop Name | Description |
+| --- | --- |
+| `children` | Your entire React app. When Babbage is running, your app will be allowed to render. Otherwise, the React Prompt will be shown. |
+| `appName` | Sets the name of your app in the UI. |
+| `appIcon` | A URL to an image to use as your app icon. |
+| `description` | A paragraph that describes your app. |
+| `author` | Shown below your app name. |
+| `authorUrl` | If provided, the author text becomes a clickable link that navigates to the given URL. |
+| `appImages` | An array of URLs to images that will be added to the app preview carousel. |
+| `supportedMetaNet` | A string indicating which networks your app supports. Use `mainnet` for Mainnet support only, `testnet` for Testnet support only, and `universal` for both. Any other value will be treated as `mainnet` (the default). |
+| `nativeAppUrls` | An object containing your native app URLs. The first level keys are: `iOS`, `Android`, `Windows Phone`, `Windows`, `Mac OS`. Each of these have a sub-object with keys `mainnet` and `testnet`. |
 
-Prop Name           | Description
---------------------|------------------------------------------
-`children`          | This is your entire React app. When Babbage is running, your app will be allowed to render. Otherwise, the React Prompt will be shown.
-`appName`           | Sets the name of the app in the UI.
-`appIcon`           | A URL to an image to use as your app icon.
-`description`       | A paragraph that describes your app. If it contains the `\n` character, it will be split and a "Learn More" link will be shown.
-`author`            | Shown below your app name.
-`authorUrl`         | If provided, the author text becomes a clickable link that navigates to the given URL.
-`appImages`         | An array of strings, each containing a relative or absolute URL to an image that will be added to the app preview carousel. You can also provide an array of objects, each with `mainnet` and `testnet` properties for image URLs.
-`supportedMetaNet`  | A string that indicates which networks your App supports. A value of `mainnet` (the default) means you only support Mainnet (i.e. Mainline), while a value of `testnet` means you only support Testnet (i.e. Stageline). A value of `universal` means both Mainnet and Testnet are supported and any other value will be treated as the default value.
-`nativeAppUrls`     | If provided, an object that contains your native App URLs. The first level keys are of the form: `iOS`, `Android`, `Windows Phone`, `Windows`, `Mac OS`. These have a sub-object with keys of the form: `mainnet` and `testnet`.
-**Note:**           | No errors are thrown by the <Prompt/> component, a best guess is used for any invalid fields.
+Caveats
+-------
 
-## License
+Please be aware that the Brave browser sometimes causes issues with desktop MetaNet Clients. If this occurs, the React Prompt is designed to instruct users on how to disable Brave Shields, which may impede your app's operation.
 
-The code in this repository is licensed under the Open BSV License.
+License
+-------
+
+The code in this repository is licensed under the [Open BSV License](https://github.com/bitcoin-sv/bitcoin-sv/blob/master/LICENSE).
