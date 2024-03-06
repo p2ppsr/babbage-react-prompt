@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react'
-import { getNetwork, isAuthenticated } from '@babbage/sdk'
+import { getNetwork, isAuthenticated } from '@babbage/sdk-ts'
 import Prompt from './components/Prompt'
 import UnsupportedBrowser from './components/UnsupportedBrowser'
 import BravePrompt from './components/BravePrompt'
