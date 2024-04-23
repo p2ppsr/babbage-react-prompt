@@ -35,7 +35,7 @@
     "standard": "^17.0.0"
   },
   "peerDependencies": {
-    "@babbage/sdk-ts": "^0.2.9",
+    "@babbage/sdk-ts": "^0.2.19",
     "react": "*",
     "react-dom": "*"
   }
